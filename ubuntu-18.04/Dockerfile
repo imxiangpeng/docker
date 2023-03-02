@@ -29,6 +29,7 @@ RUN bash -c ' \
     device-tree-compiler \
     sudo rsync neovim vim dos2unix && \
     apt install gcc-aarch64-linux-gnu -y && \
+    apt-get install -qy openssh-server && sed -i "s|session    required     pam_loginuid.so|session    optional     pam_loginuid.so|g" /etc/pam.d/sshd && mkdir -p /var/run/sshd && \
     wget --no-check-certificate https://github.com/BurntSushi/ripgrep/releases/download/13.0.0/ripgrep_13.0.0_amd64.deb -O /tmp/ripgrep.deb && dpkg -i /tmp/ripgrep.deb && rm /tmp/ripgrep.deb && \
     wget --no-check-certificate https://github.com/sharkdp/fd/releases/download/v8.7.0/fd_8.7.0_amd64.deb -O /tmp/fd.deb && dpkg -i /tmp/fd.deb && rm /tmp/fd.deb && \
     wget --no-check-certificate https://raw.githubusercontent.com/GerritCodeReview/git-repo/main/repo -O /usr/local/bin/repo && chmod 755 /usr/local/bin/repo && \
@@ -60,5 +61,6 @@ RUN bash -c ' \
 
 USER $U_NAME
 
-CMD ["/bin/bash"]
+ADD entrypoint.sh /
 
+ENTRYPOINT ["/bin/bash", "/entrypoint.sh"]
