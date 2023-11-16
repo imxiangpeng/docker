@@ -31,6 +31,7 @@ RUN bash -c ' \
     autoconf automake pkg-config \
     mtd-utils squashfs-tools libtool\
     python3-pip \
+    lib32stdc++6 \
     sudo rsync neovim vim dos2unix && \
     apt install gcc-aarch64-linux-gnu -y && \
     apt-get install -qy openssh-server && sed -i "s|session    required     pam_loginuid.so|session    optional     pam_loginuid.so|g" /etc/pam.d/sshd && mkdir -p /var/run/sshd && \
