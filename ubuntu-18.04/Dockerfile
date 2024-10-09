@@ -40,6 +40,7 @@ RUN bash -c ' \
     wget -q --no-check-certificate https://github.com/BurntSushi/ripgrep/releases/download/13.0.0/ripgrep_13.0.0_amd64.deb -O /tmp/ripgrep.deb && dpkg -i /tmp/ripgrep.deb && rm /tmp/ripgrep.deb && \
     wget -q --no-check-certificate https://github.com/sharkdp/fd/releases/download/v8.7.0/fd_8.7.0_amd64.deb -O /tmp/fd.deb && dpkg -i /tmp/fd.deb && rm /tmp/fd.deb && \
     wget -q --no-check-certificate https://raw.githubusercontent.com/GerritCodeReview/git-repo/main/repo -O /usr/local/bin/repo && chmod 755 /usr/local/bin/repo && \
+    wget -q --no-check-certificate https://github.com/ninja-build/ninja/releases/download/v1.12.1/ninja-linux.zip -O /tmp/ninja.zip && unzip -o -d /usr/local/bin /tmp/ninja.zip && chmod 755 /usr/local/bin/ninja && rm /tmp/ninja.zip && \
     wget -q -O - https://apt.kitware.com/keys/kitware-archive-latest.asc 2>/dev/null | gpg --dearmor - | sudo tee /etc/apt/trusted.gpg.d/kitware.gpg >/dev/null && \
     echo "deb https://apt.kitware.com/ubuntu/ bionic main" > /etc/apt/sources.list.d/kitware.list && \
     apt-get update && apt-get install -y cmake && \
