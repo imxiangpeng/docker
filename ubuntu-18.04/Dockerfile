@@ -67,7 +67,7 @@ RUN bash -c ' \
     echo $U_NAME:342b937d | chpasswd \
     '
     
-
+RUN echo "$U_NAME ALL=(ALL) NOPASSWD:ALL" >> /etc/sudoers
 
 USER $U_NAME
 
