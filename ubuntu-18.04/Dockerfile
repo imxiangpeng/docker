@@ -22,7 +22,6 @@ RUN bash -c ' \
     distro-info-data lsb-release \
     git-core gnupg flex bison build-essential zip curl zlib1g-dev gcc-multilib g++-multilib libc6-dev-i386 lib32ncurses5-dev x11proto-core-dev libx11-dev lib32z1-dev libgl1-mesa-dev libxml2-utils xsltproc unzip fontconfig doxygen python python3 wget libssl-dev bc cpio sqlite3 \
     bison sed perl gperf gawk unzip zlib1g-dev xsltproc \
-    liblz4-tool \
     u-boot-tools \
     uuid-dev liblzo2-dev gettext \
     libtool \
@@ -41,6 +40,7 @@ RUN bash -c ' \
     wget -q --no-check-certificate https://github.com/sharkdp/fd/releases/download/v8.7.0/fd_8.7.0_amd64.deb -O /tmp/fd.deb && dpkg -i /tmp/fd.deb && rm /tmp/fd.deb && \
     wget -q --no-check-certificate https://raw.githubusercontent.com/GerritCodeReview/git-repo/main/repo -O /usr/local/bin/repo && chmod 755 /usr/local/bin/repo && \
     wget -q --no-check-certificate https://github.com/ninja-build/ninja/releases/download/v1.12.1/ninja-linux.zip -O /tmp/ninja.zip && unzip -o -d /usr/local/bin /tmp/ninja.zip && chmod 755 /usr/local/bin/ninja && rm /tmp/ninja.zip && \
+    git clone --depth=1 https://github.com/lz4/lz4.git && cd lz4 && make && make install && cd .. && rm -rf lz4 && \
     wget -q -O - https://apt.kitware.com/keys/kitware-archive-latest.asc 2>/dev/null | gpg --dearmor - | sudo tee /etc/apt/trusted.gpg.d/kitware.gpg >/dev/null && \
     echo "deb https://apt.kitware.com/ubuntu/ bionic main" > /etc/apt/sources.list.d/kitware.list && \
     apt-get update && apt-get install -y cmake && \
