@@ -10,6 +10,7 @@ ARG G_ID=1000
 # sed -i "s%http://archive.ubuntu.com/ubuntu/%http://mirrors.aliyun.com/ubuntu/%" /etc/apt/sources.list
 #--no-install-recommends 
 #gcc-aarch64-linux-gnu
+# 20251216 tvos need glib-mkenums which in libglib2.0-dev
 
 RUN bash -c ' \
     dpkg --add-architecture i386 && \
@@ -34,7 +35,8 @@ RUN bash -c ' \
     python3-pip \
     lib32stdc++6 \
     openjdk-8-jdk openjdk-11-jdk \
-    sudo rsync vim dos2unix && \
+    sudo rsync vim dos2unix \
+    libglib2.0-dev intltool && \
     apt install --no-install-recommends gcc-aarch64-linux-gnu -y && \
     apt-get install -qy openssh-server && sed -i "s|session    required     pam_loginuid.so|session    optional     pam_loginuid.so|g" /etc/pam.d/sshd && mkdir -p /var/run/sshd && \
     wget -q --no-check-certificate https://github.com/BurntSushi/ripgrep/releases/download/13.0.0/ripgrep_13.0.0_amd64.deb -O /tmp/ripgrep.deb && dpkg -i /tmp/ripgrep.deb && rm /tmp/ripgrep.deb && \
