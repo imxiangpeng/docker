@@ -25,7 +25,10 @@ sed -i -e "s?%WORKSPACE%?${WORKSPACE}?g" $INSTALL_DIR/docker-compose.yaml
 sed -i -e "s?%HOSTNAME%?${HOSTNAME}?g" $INSTALL_DIR/docker-compose.yaml
 sed -i -e "s?%USER%?${USER}?g" $INSTALL_DIR/docker-compose.yaml
 grep "$USER:" /etc/passwd >> $INSTALL_DIR/rootfs/etc/passwd
-grep "$USER:" /etc/group >> $INSTALL_DIR/rootfs/etc/group
+#grep "$USER:" /etc/group >> $INSTALL_DIR/rootfs/etc/group
+grep "x:$G_ID:" /etc/group >> $INSTALL_DIR/rootfs/etc/group
+
+#sed -i "/^sudo:x:27:admin/s/$/,$USER/" $INSTALL_DIR/rootfs/etc/group
 
 mkdir -p  $INSTALL_DIR/rootfs/home/$USER
 

@@ -18,7 +18,7 @@ voice:x:22:
 cdrom:x:24:
 floppy:x:25:
 tape:x:26:
-sudo:x:27:
+sudo:x:27:admin
 audio:x:29:
 dip:x:30:
 www-data:x:33:
@@ -38,3 +38,4 @@ games:x:60:
 users:x:100:
 nogroup:x:65534:
 ssh:x:101:
+admin:x:1000:
