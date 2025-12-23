@@ -6,7 +6,7 @@ if id -Gn | grep &>/dev/null '\bsudo\b'; then
     sudo apt-get update
     sudo apt-get install -qy --no-install-recommends $PACKAGES_LIST
   fi
-  if [ -f /packages.list ]; then
+  if [ -s /packages.list ]; then
     sudo apt-get update
     sudo apt-get install -qy --no-install-recommends $(cat /packages.list)
   fi
