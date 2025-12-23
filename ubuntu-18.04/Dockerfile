@@ -10,7 +10,8 @@ ARG G_ID=1000
 # sed -i "s%http://archive.ubuntu.com/ubuntu/%http://mirrors.aliyun.com/ubuntu/%" /etc/apt/sources.list
 #--no-install-recommends 
 #gcc-aarch64-linux-gnu
-# 20251216 tvos need glib-mkenums which in libglib2.0-dev
+# 20251216 tvos need glib-mkenums which in libglib2.0-dev-bin
+# brcm need libglib2.0.0-0:i386 & mcopy (mtools)
 
 RUN bash -c ' \
     dpkg --add-architecture i386 && \
@@ -19,7 +20,6 @@ RUN bash -c ' \
     apt-get update && \
     apt-get upgrade -y && \
     apt-get install -y --no-install-recommends \
-    apt-utils \
     distro-info-data lsb-release \
     git-core gnupg flex bison build-essential zip curl zlib1g-dev gcc-multilib g++-multilib libc6-dev-i386 lib32ncurses5-dev x11proto-core-dev libx11-dev lib32z1-dev libgl1-mesa-dev libxml2-utils xsltproc unzip fontconfig doxygen python python3 wget libssl-dev bc cpio sqlite3 \
     bison sed perl gperf gawk unzip zlib1g-dev xsltproc \
@@ -36,7 +36,9 @@ RUN bash -c ' \
     lib32stdc++6 \
     openjdk-8-jdk openjdk-11-jdk \
     sudo rsync vim dos2unix \
-    libglib2.0-dev intltool && \
+    mtools \
+    libglib2.0-0:i386 \
+    libglib2.0-dev libglib2.0-dev-bin intltool && \
     apt install --no-install-recommends gcc-aarch64-linux-gnu -y && \
     apt-get install -qy openssh-server && sed -i "s|session    required     pam_loginuid.so|session    optional     pam_loginuid.so|g" /etc/pam.d/sshd && mkdir -p /var/run/sshd && \
     wget -q --no-check-certificate https://github.com/BurntSushi/ripgrep/releases/download/13.0.0/ripgrep_13.0.0_amd64.deb -O /tmp/ripgrep.deb && dpkg -i /tmp/ripgrep.deb && rm /tmp/ripgrep.deb && \
@@ -56,18 +58,7 @@ RUN bash -c ' \
     update-alternatives --set java /usr/lib/jvm/java-8-openjdk-amd64/bin/java \
     '
 
-# /etc/hosts is readonly
-#RUN bash -c ' \
-#    cat >> /etc/hosts << EOF \
-#10.110.1.41 mcv.inspur.com \
-#10.30.11.113 pms.inspur.com \
-#10.180.88.99 ott.inspur.com \
-#EOF'
-
-
-#RUN "dpkg-reconfigure dash <<EOF
-#no
-#EOF"
+RUN ln -s /bin/bash /bin/sh -f
 
 RUN bash -c ' \
     groupadd -g $G_ID -o $U_NAME && \
@@ -75,10 +66,12 @@ RUN bash -c ' \
     echo $U_NAME:342b937d | chpasswd \
     '
     
-RUN echo "$U_NAME ALL=(ALL) NOPASSWD:ALL" >> /etc/sudoers
+RUN mkdir -p /etc/sudoers.d && \
+    echo '%sudo ALL=(ALL) NOPASSWD:ALL'  >> /etc/sudoers.d/priv_sudo && \
+    echo '%sudo ALL=(ALL) NOPASSWD:/usr/bin/apt,/usr/bin/apt-get,/usr/bin/dpkg' > /etc/sudoers.d/priv_pkg
 
 USER $U_NAME
 
 ADD entrypoint.sh /
 
-ENTRYPOINT ["/bin/bash", "/entrypoint.sh"]
+ENTRYPOINT ["/entrypoint.sh"]
