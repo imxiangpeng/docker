@@ -5,6 +5,8 @@ services:
     container_name: %HOSTNAME%_%USER%
     user: %UID%:%GID%
     privileged: true
+    stdin_open: true
+    tty: true   
     volumes:
       - $PWD/rootfs/home/%USER%:/home/%USER%
       - $PWD/rootfs/etc/passwd:/etc/passwd
