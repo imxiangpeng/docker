@@ -36,7 +36,7 @@ RUN bash -c ' \
     lib32stdc++6 \
     openjdk-8-jdk openjdk-11-jdk \
     sudo rsync vim dos2unix \
-    mtools \
+    mtools dosfstools \
     libglib2.0-0:i386 \
     libglib2.0-dev libglib2.0-dev-bin intltool && \
     apt install --no-install-recommends gcc-aarch64-linux-gnu -y && \
