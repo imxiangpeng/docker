@@ -47,6 +47,7 @@ RUN sed -i 's/^#PasswordAuthentication yes/PasswordAuthentication no/' /etc/ssh/
     && sed -i '/^#Protocol/d' /etc/ssh/sshd_config \
     && echo 'Protocol 2' >> /etc/ssh/sshd_config \
     && sed -i 's/^#PrintMotd yes/PrintMotd no/' /etc/ssh/sshd_config \
+    && sed -i 's/#GatewayPorts no/GatewayPorts clientspecified/' /etc/ssh/sshd_config \
     && sed -i '/^#AllowUsers/d' /etc/ssh/sshd_config \
     && echo 'AllowUsers miniadm user' >> /etc/ssh/sshd_config
 
