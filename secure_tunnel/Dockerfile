@@ -49,6 +49,8 @@ RUN sed -i 's/^#PasswordAuthentication yes/PasswordAuthentication no/' /etc/ssh/
     && sed -i 's/^#PrintMotd yes/PrintMotd no/' /etc/ssh/sshd_config \
     && sed -i 's/#GatewayPorts no/GatewayPorts clientspecified/' /etc/ssh/sshd_config \
     && sed -i '/^#AllowUsers/d' /etc/ssh/sshd_config \
+    && sed -i 's/^#ClientAliveInterval 0/ClientAliveInterval 30/' /etc/ssh/sshd_config \
+    && sed -i 's/^#ClientAliveCountMax/ClientAliveCountMax 3/' /etc/ssh/sshd_config \
     && echo 'AllowUsers miniadm user' >> /etc/ssh/sshd_config
 
 # 暴露 22 端口
